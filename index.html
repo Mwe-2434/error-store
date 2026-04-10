@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ERROR STORE</title>
+  <style>
+    :root{
+      --bg1:#091224; --bg2:#060d1b; --bg3:#020611;
+      --card:rgba(11,19,36,.95); --line:rgba(148,163,184,.14);
+      --text:#fff; --muted:#c7d2fe; --red:#dc2626; --blue:#2563eb; --green:#16a34a; --gold:#ffd166;
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth}
+    body{margin:0;font-family:Tahoma,Arial,sans-serif;color:var(--text);background:
+      radial-gradient(circle at top, rgba(37,99,235,.18), transparent 28%),
+      radial-gradient(circle at 20% 20%, rgba(239,68,68,.08), transparent 24%),
+      linear-gradient(180deg,var(--bg1),var(--bg2),var(--bg3));min-height:100vh}
+    a{text-decoration:none;color:inherit} img{display:block;max-width:100%}
+    button,input,textarea,select{font:inherit} .hidden{display:none!important}
+    .container{width:min(1280px,calc(100% - 24px));margin:0 auto}
+    .topbar{position:sticky;top:0;z-index:60;background:rgba(4,10,24,.84);backdrop-filter:blur(12px);border-bottom:1px solid rgba(148,163,184,.16)}
+    .topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 0;flex-wrap:wrap}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:900}.brand-badge{width:52px;height:52px;border-radius:18px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(37,99,235,.9),rgba(220,38,38,.72))}
+    .brand-title{font-size:28px;line-height:1}.brand-sub{font-size:12px;color:#dbeafe;margin-top:4px}
+    .nav{display:flex;gap:8px;flex-wrap:wrap}.nav a,.btn,.ghost,.danger,.success,.small{border:none;cursor:pointer;border-radius:16px;padding:11px 16px;transition:.18s ease}
+    .nav a,.ghost,.small,select,.field,.textarea{background:rgba(6,14,28,.9);border:1px solid rgba(148,163,184,.16);color:#fff}
+    .btn{background:#fff;color:#0f172a;font-weight:700}.danger{background:var(--red);color:#fff;font-weight:700}.success{background:var(--green);color:#fff;font-weight:700}.small{padding:9px 12px}
+    .nav a:hover,.btn:hover,.ghost:hover,.danger:hover,.success:hover,.small:hover{transform:translateY(-1px)}
+    #checkoutPlayerIdWrap.hidden{display:none!important}
+    .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .lang-select,.currency-select,.field,.textarea,.select{padding:12px 14px;border-radius:16px}
+    .hero{padding:24px 0 16px;display:grid;grid-template-columns:1.2fr .8fr;gap:20px}
+    .panel,.card,.product-card,.offer-card,.invoice-card,.stat-box,.admin-item,.cart-item,.quick-card{background:linear-gradient(180deg,rgba(11,19,36,.95),rgba(7,12,24,.98));border:1px solid var(--line);border-radius:24px;box-shadow:0 18px 45px rgba(0,0,0,.25);overflow:hidden}
+    .hero-banner{min-height:380px;background:
+      linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.55)),
+      radial-gradient(circle at center, rgba(37,99,235,.1), rgba(2,6,23,.88)),
+      url('error_logo.png') center/contain no-repeat;display:flex;align-items:end}
+    .hero-overlay{padding:28px;width:100%}.tag{display:inline-flex;padding:8px 14px;border-radius:999px;background:linear-gradient(90deg,rgba(220,38,38,.95),rgba(37,99,235,.95));font-size:13px;font-weight:700;margin-bottom:14px}
+    .hero-title{font-size:clamp(30px,4vw,50px);font-weight:900;line-height:1.08;margin:0 0 12px}.hero-text{color:#dbe7ff;line-height:1.9;max-width:60ch}
+    .actions,.flex{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .panel-head{padding:20px 20px 8px}.panel-body,.card-body,.product-info,.offer-body,.invoice-body,.box-body{padding:0 20px 20px}
+    .panel-title,.section-title,.card-title,.product-title,.invoice-title{font-weight:900;margin:0}.panel-title{font-size:22px}.panel-sub,.muted,.section-sub{color:var(--muted);line-height:1.8}
+    .stats-grid,.cards-grid,.products-grid,.offers-grid,.invoice-grid,.admin-grid,.quick-grid{display:grid;gap:18px}
+    .stats-grid{grid-template-columns:repeat(2,1fr)} .cards-grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+    .products-grid{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))} .offers-grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+    .invoice-grid{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))} .admin-grid{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))} .quick-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .stat-box,.quick-card{padding:18px}.stat-label,.quick-label,.smalltxt{font-size:13px;color:#93c5fd}.stat-value,.quick-value{font-size:22px;font-weight:900;margin-top:10px}
+    section{padding:18px 0}.section-head{display:flex;justify-content:space-between;align-items:end;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+    .section-title{font-size:clamp(24px,3vw,34px)} .pill{padding:9px 14px;border-radius:999px;background:rgba(37,99,235,.22);border:1px solid rgba(147,197,253,.2);font-size:13px;font-weight:700;color:#dbeafe}
+    .card img,.offer-card img,.selected-cover{width:100%;object-fit:cover}.card img,.offer-card img{height:180px}.selected-cover{height:260px}.product-image img{width:100%;height:240px;object-fit:cover}
+    .chiplist,.chips,.line-list{display:flex;gap:8px;flex-wrap:wrap}.chip{padding:8px 12px;border-radius:999px;background:rgba(37,99,235,.16);border:1px solid rgba(191,219,254,.15);font-size:12px;font-weight:700;color:#dbeafe}
+    .two-col{display:grid;grid-template-columns:minmax(320px,390px) minmax(0,1fr);gap:20px}.sticky{position:sticky;top:92px}
+    .category-tabs{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-top:16px}.category-btn{border:none;border-radius:999px;padding:10px 14px;background:rgba(255,255,255,.08);color:#fff;cursor:pointer}.category-btn.active{background:linear-gradient(90deg,#ef4444,#2563eb);font-weight:900}
+    .product-badge{position:absolute;top:12px;left:12px;padding:7px 12px;border-radius:999px;background:rgba(245,158,11,.92);font-size:12px;font-weight:900}
+    .price-now{font-size:26px;color:var(--gold);font-weight:900;direction:ltr;unicode-bidi:plaintext}.price-old{font-size:15px;color:#cbd5e1;text-decoration:line-through;min-height:22px;direction:ltr;unicode-bidi:plaintext}
+    .details{margin-top:12px;padding:12px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06)} .details ul{margin:8px 0 0;padding-right:18px;line-height:1.8;color:#dbeafe}
+    html[dir="ltr"] .details ul{padding-right:0;padding-left:18px}
+    .notice{margin-top:8px;padding:14px 16px;border-radius:20px;border:1px solid rgba(96,165,250,.18);background:linear-gradient(180deg,rgba(30,64,175,.16),rgba(15,23,42,.5));color:#dbeafe;line-height:1.8}
+    .warning{border-color:rgba(250,204,21,.2);background:rgba(234,179,8,.12);color:#fef3c7}.danger-note{border-color:rgba(248,113,113,.2);background:rgba(239,68,68,.12);color:#fee2e2}
+    .cart-list,.admin-table{display:grid;gap:12px}.cart-item,.admin-item{padding:16px}.cart-top,.admin-top{display:grid;grid-template-columns:92px 1fr;gap:12px;align-items:start}.thumb{width:92px;height:74px;object-fit:cover;border-radius:16px}
+    .qty{width:34px;height:34px;border:none;border-radius:12px;background:rgba(37,99,235,.18);color:#fff;cursor:pointer}
+    .status{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;font-size:13px;font-weight:900}.unpaid{background:rgba(239,68,68,.14);color:#fecaca}.paid{background:rgba(34,197,94,.14);color:#bbf7d0}.delivered{background:rgba(59,130,246,.16);color:#bfdbfe}
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.62);display:none;align-items:center;justify-content:center;padding:20px;z-index:120}.modal.active{display:flex}
+    .modal-box{width:min(760px,100%);max-height:90vh;overflow:auto;background:linear-gradient(180deg,#0a1837,#07142e);border:1px solid rgba(255,255,255,.12);border-radius:28px;padding:22px}
+    .modal-head{display:flex;justify-content:space-between;align-items:start;gap:12px;margin-bottom:16px}.close{width:40px;height:40px;border:none;border-radius:14px;background:rgba(255,255,255,.08);color:#fff;cursor:pointer}
+    .form-grid{display:grid;gap:14px}.label{display:block;font-size:14px;font-weight:700;margin-bottom:8px}
+    .field,.textarea,.select,.lang-select,.currency-select{width:100%}
+    .field,.textarea,.select,.lang-select,.currency-select{outline:none}
+    .textarea{min-height:120px;resize:vertical}
+    .product-info,.offer-body,.invoice-body,.card-body,.box-body{display:flex;flex-direction:column;gap:10px}
+    .admin-item .flex,.invoice-body .flex,.cart-item .flex{margin-top:12px}
+    .month-row{padding:14px 16px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(148,163,184,.12);margin-bottom:12px}
+    .bar{height:10px;border-radius:999px;background:rgba(148,163,184,.16);overflow:hidden;margin-top:10px}
+    .bar span{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,rgba(220,38,38,.95),rgba(37,99,235,.95))}
+    .tabs{display:flex;gap:8px;background:rgba(255,255,255,.05);padding:6px;border-radius:18px;margin-bottom:16px}.tab-btn{flex:1;border:none;border-radius:14px;padding:12px;background:transparent;color:#fff;cursor:pointer;font-weight:700}.tab-btn.active{background:rgba(37,99,235,.35)}
+    .tab-panel{display:none}.tab-panel.active{display:block}.footer{padding:36px 0 45px;color:#94a3b8;text-align:center;font-size:14px}
+    @media (max-width:1100px){.two-col{grid-template-columns:1fr}.sticky{position:static}.quick-grid{grid-template-columns:1fr}}
+    @media (max-width:760px){.container{width:min(100% - 18px,1280px)}.nav{width:100%;overflow:auto;flex-wrap:nowrap}.hero{grid-template-columns:1fr}.stats-grid,.quick-grid{grid-template-columns:1fr}.product-image img,.selected-cover,.card img,.offer-card img{height:210px}.actions>*,.flex>*{flex:1 1 100%}}
+  </style>
+</head>
+<body>
+<header class="topbar">
+  <div class="container topbar-inner">
+    <div class="brand">
+      <div class="brand-badge brand-logo-badge">
+        <img
+          src="https://cdn.discordapp.com/attachments/1377005390633635960/1489804482958069851/ad68d003-ae63-4208-a915-263807624414.png?ex=69d1c00b&is=69d06e8b&hm=81a4eecbb3d697efb3d9f6f604dc85353972bdac1cc21f32b802aea3aef3c5e7&"
+          alt="ERROR STORE Logo"
+          class="brand-logo-img"
+        >
+      </div>
+
+      <div class="brand-text">
+        <div class="brand-title">ERROR STORE</div>
+        <div class="brand-sub">مرحبا بكم في متجر ايرور ستور</div>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <a href="#home" data-t="nav.home"></a>
+      <a href="#games" data-t="nav.games"></a>
+      <a href="#cart" data-t="nav.cart"></a>
+      <a href="#invoices" data-t="nav.invoices"></a>
+      <a href="#income" id="incomeNav" class="hidden" data-t="nav.income"></a>
+      <a href="#admin" id="adminNav" class="hidden" data-t="nav.admin"></a>
+    </nav>
+
+    <div class="toolbar">
+      <select id="languageSelect" class="lang-select"></select>
+      <select id="currencySelect" class="currency-select"></select>
+      <div class="pill" id="cartCountPill"></div>
+      <button class="btn" id="openAuthBtn" data-t="btn.auth"></button>
+      <button class="ghost hidden" id="logoutBtn" data-t="btn.logout"></button>
+    </div>
+  </div>
+</header>
+
+<style>
+  .brand{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  font-weight:900;
+  min-width: fit-content;
+}
+
+.brand-badge{
+  width:62px;
+  height:62px;
+  border-radius:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  background:linear-gradient(135deg,#2563eb,#dc2626);
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 8px 22px rgba(0,0,0,.28);
+  flex-shrink:0;
+}
+
+.brand-logo-badge{
+  padding:3px;
+}
+
+.brand-logo-img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:15px;
+  display:block;
+}
+
+.brand-text{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  min-width:0;
+}
+
+.brand-title{
+  font-size:28px;
+  line-height:1;
+  font-weight:900;
+  color:#fff;
+  letter-spacing:.5px;
+  text-shadow:0 2px 10px rgba(0,0,0,.22);
+  white-space:nowrap;
+}
+
+.brand-sub{
+  font-size:13px;
+  margin-top:6px;
+  color:#dbeafe;
+  line-height:1.4;
+}
+
+@media (max-width:760px){
+  .topbar-inner{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .brand{
+    justify-content:center;
+  }
+
+  .brand-title{
+    font-size:22px;
+    white-space:normal;
+    text-align:center;
+  }
+
+  .brand-sub{
+    text-align:center;
+  }
+
+  .nav{
+    justify-content:center;
+  }
+
+  .toolbar{
+    justify-content:center;
+  }
+}
+</style>
+
+<main class="container">
+  <section class="hero" id="home">
+    <div class="panel hero-banner">
+      <div class="hero-overlay">
+        <div class="tag" data-t="hero.tag"></div>
+        <h1 class="hero-title" data-t="hero.title"></h1>
+        <p class="hero-text" data-t="hero.text"></p>
+        <div class="actions">
+          <a class="danger" href="#games" data-t="hero.browse"></a>
+          <a class="ghost" href="#admin" data-t="hero.admin"></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="panel">
+        <div class="panel-head">
+          <h2 class="panel-title" data-t="search.title"></h2>
+          <p class="panel-sub" data-t="search.sub"></p>
+        </div>
+        <div class="panel-body">
+          <input class="field" id="searchInput">
+          <div class="smalltxt" id="searchHint"></div>
+        </div>
+      </div>
+      <div class="panel hidden" id="summaryPanel">
+        <div class="panel-head">
+          <h2 class="panel-title" data-t="summary.title"></h2>
+          <p class="panel-sub" data-t="summary.sub"></p>
+        </div>
+        <div class="panel-body stats-grid">
+          <div class="stat-box"><div class="stat-label" data-t="summary.totalIncome"></div><div class="stat-value" id="totalIncome"></div></div>
+          <div class="stat-box"><div class="stat-label" data-t="summary.invoiceCount"></div><div class="stat-value" id="ordersCount"></div></div>
+          <div class="stat-box"><div class="stat-label" data-t="summary.currentUser"></div><div class="stat-value" id="currentUserText" style="font-size:18px"></div></div>
+          <div class="stat-box"><div class="stat-label" data-t="summary.paidInvoices"></div><div class="stat-value" id="paidCountText" style="font-size:18px"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="notice" id="noticeBox"></div>
+
+  <section class="quick-strip">
+    <div class="quick-grid">
+      <div class="quick-card"><div class="quick-label" data-t="quick.pubgLabel"></div><div class="quick-value" data-t="quick.pubgValue"></div></div>
+      <div class="quick-card"><div class="quick-label" data-t="quick.currencyLabel"></div><div class="quick-value" data-t="quick.currencyValue"></div></div>
+      <div class="quick-card"><div class="quick-label" data-t="quick.purchaseLabel"></div><div class="quick-value" data-t="quick.purchaseValue"></div></div>
+    </div>
+  </section>
+
+  <section id="games">
+    <div class="section-head">
+      <div><h2 class="section-title" data-t="sections.main"></h2><p class="section-sub" data-t="sections.mainSub"></p></div>
+      <div class="pill" id="gamesCountPill"></div>
+    </div>
+    <div class="cards-grid" id="gamesGrid"></div>
+  </section>
+
+  <section>
+    <div class="two-col">
+      <div class="panel sticky">
+        <img class="selected-cover" id="selectedGameImage" src="pubg.webp" alt="">
+        <div class="box-body">
+          <h3 class="card-title" id="selectedGameName"></h3>
+          <p class="muted" id="selectedGameDescription"></p>
+          <div class="chiplist" id="selectedGameOffers"></div>
+          <div class="category-tabs" id="categoryTabs"></div>
+        </div>
+      </div>
+      <div>
+        <div class="section-head">
+          <div><h2 class="section-title" id="productsSectionTitle"></h2><p class="section-sub" data-t="sections.productsSub"></p></div>
+          <div class="pill" id="productsCountPill"></div>
+        </div>
+        <div class="products-grid" id="productsGrid"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="offers">
+    <div class="section-head">
+      <div><h2 class="section-title" data-t="sections.offers"></h2><p class="section-sub" data-t="sections.offersSub"></p></div>
+      <div class="pill" data-t="sections.live"></div>
+    </div>
+    <div class="offers-grid" id="offersGrid"></div>
+  </section>
+
+  <section id="cart">
+    <div class="section-head">
+      <div><h2 class="section-title" data-t="sections.cart"></h2><p class="section-sub" data-t="sections.cartSub"></p></div>
+      <div class="pill" id="cartTotalPill"></div>
+    </div>
+    <div class="panel"><div class="panel-body" style="padding-top:22px">
+      <div class="cart-list" id="cartList"></div>
+      <div class="actions" style="margin-top:18px">
+        <button class="danger" id="openCheckoutBtn" data-t="btn.createInvoice"></button>
+        <button class="ghost" id="clearCartBtn" data-t="btn.clearCart"></button>
+      </div>
+    </div></div>
+  </section>
+
+  <section id="invoices">
+    <div class="section-head">
+      <div><h2 class="section-title" data-t="sections.invoices"></h2><p class="section-sub" data-t="sections.invoicesSub"></p></div>
+      <div class="pill" id="invoiceCountPill"></div>
+    </div>
+    <div class="invoice-grid" id="invoiceGrid"></div>
+  </section>
+
+  <section id="income" class="hidden">
+    <div class="section-head">
+      <div><h2 class="section-title" data-t="sections.income"></h2><p class="section-sub" data-t="sections.incomeSub"></p></div>
+      <div class="pill" id="incomeCurrencyPill"></div>
+    </div>
+    <div class="panel"><div class="panel-body" style="padding-top:22px">
+      <div id="incomeRows"></div>
+      <div class="admin-grid" style="margin-top:20px">
+        <div class="quick-card"><div class="quick-label" data-t="income.best"></div><div class="quick-value" id="bestMonthText"></div></div>
+        <div class="quick-card"><div class="quick-label" data-t="income.avg"></div><div class="quick-value" id="avgMonthText"></div></div>
+        <div class="quick-card"><div class="quick-label" data-t="income.noteTitle"></div><div class="muted" data-t="income.note"></div></div>
+      </div>
+    </div></div>
+  </section>
+
+  <section id="admin" class="hidden">
+    <div class="section-head">
+      <div><h2 class="section-title" data-t="admin.title"></h2><p class="section-sub" data-t="admin.sub"></p></div>
+      <div class="pill" data-t="admin.local"></div>
+    </div>
+
+    <div class="panel" style="margin-bottom:20px">
+      <div class="panel-head"><h3 class="panel-title" data-t="admin.invoices"></h3><p class="panel-sub" data-t="admin.invoicesSub"></p></div>
+      <div class="panel-body"><div class="admin-table" id="adminInvoicesTable"></div></div>
+    </div>
+
+    <div class="panel" style="margin-bottom:20px">
+      <div class="panel-head"><h3 class="panel-title" data-t="admin.prices"></h3><p class="panel-sub" data-t="admin.pricesSub"></p></div>
+      <div class="panel-body admin-grid">
+        <div><label class="label" data-t="admin.currency"></label><select class="select" id="adminCurrencySelect"></select></div>
+        <div><label class="label" data-t="admin.section"></label><select class="select" id="adminGameSelect"></select></div>
+        <div><label class="label" data-t="admin.category"></label><select class="select" id="adminCategorySelect"></select></div>
+      </div>
+      <div class="panel-body"><div class="admin-table" id="adminProductsTable"></div></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><h3 class="panel-title" data-t="admin.addTitle"></h3><p class="panel-sub" data-t="admin.addSub"></p></div>
+      <div class="panel-body admin-grid">
+        <div><label class="label" data-t="admin.section"></label><select class="select" id="adminAddGameSelect"></select></div>
+        <div><label class="label" data-t="admin.category"></label><select class="select" id="adminAddCategorySelect"></select></div>
+        <div><label class="label" data-t="admin.productName"></label><input class="field" id="adminProductName"></div>
+        <div><label class="label" data-t="admin.basePrice"></label><input class="field" id="adminProductPrice"></div>
+        <div><label class="label" data-t="admin.oldPrice"></label><input class="field" id="adminOldPrice"></div>
+        <div><label class="label" data-t="admin.note"></label><input class="field" id="adminProductNote"></div>
+        <div style="grid-column:1/-1"><button class="danger" id="addProductBtn" data-t="btn.addProduct"></button></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer" data-t="footer"></footer>
+
+<div class="modal" id="authModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div><h3 class="panel-title" data-t="auth.title"></h3><p class="panel-sub" data-t="auth.sub"></p></div>
+      <button class="close" data-close="authModal">✕</button>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" data-auth-tab="login" data-t="auth.loginTab"></button>
+      <button class="tab-btn" data-auth-tab="register" data-t="auth.registerTab"></button>
+    </div>
+    <div class="tab-panel active" id="authLoginPanel">
+      <div class="form-grid">
+        <div><label class="label" data-t="fields.email"></label><input class="field" id="loginEmail"></div>
+        <div><label class="label" data-t="fields.password"></label><input type="password" class="field" id="loginPassword"></div>
+        <button class="danger" id="loginBtn" data-t="btn.login"></button>
+      </div>
+    </div>
+    <div class="tab-panel" id="authRegisterPanel">
+      <div class="form-grid">
+        <div><label class="label" data-t="fields.name"></label><input class="field" id="registerName"></div>
+        <div><label class="label" data-t="fields.email"></label><input class="field" id="registerEmail"></div>
+        <div><label class="label" data-t="fields.password"></label><input type="password" class="field" id="registerPassword"></div>
+        <div><label class="label" data-t="fields.phone"></label><input class="field" id="registerPhone"></div>
+        <button class="success" id="registerBtn" data-t="btn.register"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="verifyModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div><h3 class="panel-title" data-t="verify.title"></h3><p class="panel-sub" data-t="verify.sub"></p></div>
+      <button class="close" data-close="verifyModal">✕</button>
+    </div>
+    <div class="form-grid">
+      <div><label class="label" data-t="verify.code"></label><input class="field" id="verifyCodeInput"></div>
+      <button class="danger" id="confirmVerifyBtn" data-t="btn.confirm"></button>
+      <div class="notice" id="verifyInfoBox"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="checkoutModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div><h3 class="panel-title" data-t="checkout.title"></h3><p class="panel-sub" data-t="checkout.sub"></p></div>
+      <button class="close" data-close="checkoutModal">✕</button>
+    </div>
+    <div class="form-grid">
+      <div><label class="label" data-t="fields.name"></label><input class="field" id="checkoutName"></div>
+      <div><label class="label" data-t="fields.email"></label><input class="field" id="checkoutEmail"></div>
+      <div><label class="label" data-t="fields.discord"></label><input class="field" id="checkoutDiscord"></div>
+      <div><label class="label" data-t="fields.phone"></label><input class="field" id="checkoutPhone"></div>
+      <div id="checkoutPlayerIdWrap"><label class="label" data-t="fields.playerId"></label><input class="field" id="checkoutPlayerId"><div class="smalltxt" id="playerIdHint"></div></div>
+      <div><label class="label" data-t="fields.payment"></label><select class="select" id="checkoutPaymentMethod">
+        <option value="Discord Ticket">Discord Ticket</option>
+        <option value="Binance / USDT">Binance / USDT</option>
+        <option value="Visa / Mastercard">Visa / Mastercard</option>
+        <option value="PayPal">PayPal</option>
+        <option value="Local Transfer">Local Transfer</option>
+      </select></div>
+      <div><label class="label" data-t="fields.notes"></label><textarea class="textarea" id="checkoutNotes"></textarea></div>
+      <button class="danger" id="createInvoiceBtn" data-t="btn.confirmInvoice"></button>
+    </div>
+  </div>
+</div>
+
+<script>
+const TEXT = {
+  ar:{
+    nav:{home:'الرئيسية',games:'الأقسام',cart:'السلة',invoices:'الفواتير',income:'المدخول الشهري',admin:'لوحة الأدمن'},
+    btn:{auth:'دخول / حساب جديد',logout:'تسجيل خروج',createInvoice:'إنشاء فاتورة',clearCart:'تفريغ السلة',login:'دخول',register:'إنشاء حساب',confirm:'تأكيد الحساب',confirmInvoice:'تأكيد الفاتورة',addProduct:'إضافة المنتج',open:'فتح القسم',more:'عرض المزيد',addToCart:'أضف إلى السلة',approve:'اعتماد الفاتورة',toggle:'تبديل الدفع',deleteInvoice:'حذف الفاتورة',save:'حفظ السعر',remove:'حذف'},
+    hero:{tag:'شحن رقمي منظم + PUBG + أغراض قيمنق',title:'متجر ERROR للشحن الرقمي',text:'هذه نسخة ثنائية اللغة العربية والإنجليزية مع تبديل مباشر للواجهة والاتجاه، مع الحفاظ على الأقسام والعملات والسلة والفواتير ولوحة الأدمن.',browse:'ابدأ التصفح',admin:'إدارة العملات'},
+    search:{title:'بحث سريع',sub:'ابحث داخل الألعاب والاشتراكات وأغراض القيمنق.',placeholder:'ابحث: PUBG، Prime، الشعبية، UC، Cooler...',hint:'الأسعار تتغير حسب العملة المختارة من الأعلى.'},
+    summary:{title:'ملخص سريع',sub:'المبالغ هنا تحسب فقط للفواتير المدفوعة بنفس العملة المختارة حاليًا.',totalIncome:'إجمالي المدخول',invoiceCount:'عدد الفواتير',currentUser:'الحساب الحالي',paidInvoices:'الفواتير المدفوعة'},
+    quick:{pubgLabel:'قسم PUBG',pubgValue:'UC + Prime + Prime Plus + الشعبية',currencyLabel:'العملات',currencyValue:'تبديل مباشر من الأعلى',purchaseLabel:'الشراء',purchaseValue:'سلة + فواتير + واتساب'},
+    sections:{main:'الأقسام الرئيسية',mainSub:'كل قسم له صورة وعروض ومنتجاته الخاصة، بما فيها اغراض القيمنق.',productsSub:'اعرض التفاصيل ثم أضف إلى السلة، والسعر يتغير حسب العملة المختارة.',offers:'العروض',offersSub:'عرض سريع لكل قسم مع نفس تنسيق المتجر.',live:'عروض حية',cart:'السلة',cartSub:'اجمع أكثر من منتج، ثم أنشئ فاتورة واحدة بالعملة المختارة.',invoices:'الفواتير',invoicesSub:'كل فاتورة تحفظ العملة المستخدمة وقت الشراء، مع حالة الدفع والاستلام.',income:'المدخول الشهري',incomeSub:'التقرير يحسب فقط الفواتير المدفوعة في نفس العملة المختارة من الأعلى.'},
+    income:{best:'أعلى شهر',avg:'متوسط شهري',noteTitle:'ملاحظة مهمة',note:'هذه نسخة محلية داخل المتصفح. لجعل البيانات موحدة لكل الزوار تحتاج قاعدة بيانات حقيقية.'},
+    admin:{title:'لوحة الأدمن',sub:'إدارة الفواتير + إدارة أسعار كل منتج لكل عملة + إضافة منتجات جديدة.',local:'إدارة محلية',invoices:'المشتريات والفواتير',invoicesSub:'يمكنك اعتماد الفاتورة أو تبديل حالتها أو حذفها نهائيًا.',prices:'إدارة العملات والأسعار',pricesSub:'اختر العملة، ثم عدل سعر كل باقة في هذه العملة فقط.',currency:'العملة',section:'القسم',category:'الفئة',addTitle:'إضافة منتج جديد',addSub:'المنتج الجديد يأخذ أسعارًا ابتدائية تلقائيًا ثم تعدلها يدويًا لكل عملة.',productName:'اسم المنتج',basePrice:'سعر ابتدائي باليورو',oldPrice:'سعر قديم باليورو',note:'وصف قصير'},
+    auth:{title:'الحسابات',sub:'تسجيل دخول محلي وإنشاء حساب داخل المتصفح.',loginTab:'تسجيل الدخول',registerTab:'إنشاء حساب'},
+    verify:{title:'تأكيد البريد الإلكتروني',sub:'أدخل رمز التحقق الذي ظهر لك بعد إنشاء الحساب.',code:'رمز التحقق'},
+    checkout:{title:'إنشاء الفاتورة',sub:'الفاتورة ستُحفظ بنفس العملة المختارة حاليًا.',playerIdHint:'يبدأ بـ 5 ويكون من 9 إلى 12 رقمًا.'},
+    fields:{email:'البريد الإلكتروني',password:'كلمة المرور',name:'الاسم',phone:'رقم الهاتف / واتساب',discord:'اسم الدسكورد',playerId:'ID اللاعب',payment:'طريقة الدفع',notes:'ملاحظات'},
+    footer:'جميع الحقوق محفوظة © ERROR 2026',
+    misc:{guest:'زائر',mainNotice:'تم تعديل الملف ليكون باللغتين العربية والإنجليزية مع تبديل مباشر للواجهة.',sectionCount:'{n} أقسام',productCount:'{n} منتج',cartCount:'{n} في السلة',invoiceCount:'{n} فاتورة',cartTotal:'الإجمالي {v}',byCurrency:'حسب {v}',emptyCart:'السلة فارغة حاليًا.',emptyInvoices:'لا توجد فواتير حتى الآن.',emptyPaid:'لا توجد فواتير مدفوعة بهذه العملة حتى الآن.',loginFailed:'بيانات الدخول غير صحيحة.',loginSuccess:'مرحبًا {n}، تم تسجيل الدخول بنجاح.',logoutSuccess:'تم تسجيل الخروج بنجاح.',verifyStart:'تم إنشاء الحساب مبدئيًا. أكمل التحقق بالكود الظاهر.',verifyDone:'تم تأكيد البريد وإنشاء الحساب بنجاح.',verifyWrong:'رمز التحقق غير صحيح.',verifyNone:'لا يوجد طلب تحقق حالي.',required:'يرجى تعبئة جميع الحقول المطلوبة.',badPlayer:'ID اللاعب غير صحيح. يجب أن يبدأ بالرقم 5 ويكون من 9 إلى 12 رقمًا.',added:'تمت إضافة المنتج إلى السلة.',removed:'تم حذف المنتج من السلة.',cleared:'تم تفريغ السلة.',invoiceCreated:'تم إنشاء الفاتورة بنجاح بنفس العملة المختارة حاليًا.',invoiceApproved:'تم اعتماد الفاتورة {c} وأصبحت مدفوعة وتم استلام الطلب.',invoiceUpdated:'تم تحديث حالة الفاتورة {c}.',invoiceDeleted:'تم حذف الفاتورة {c}.',deleteInvoiceConfirm:'هل أنت متأكد من حذف هذه الفاتورة؟',adminOnly:'هذه العملية متاحة للأدمن فقط.',badPrice:'أدخل سعرًا صحيحًا.',priceSaved:'تم حفظ سعر {n} بعملة {c}.',addProductNeed:'أدخل القسم والفئة واسم المنتج وسعرًا ابتدائيًا صحيحًا.',addProductOk:'تمت إضافة المنتج {n} داخل {s} / {c}.',currencyChanged:'تم تحديث اللغة / العملة بنجاح.',needPrice:'هذا المنتج يحتاج سعرًا من لوحة الأدمن أولاً.',paid:'مدفوع',unpaid:'غير مدفوع',received:'تم استلام الطلب',pending:'قيد الانتظار',notProvided:'غير مكتوب',bestMonth:'أعلى شهر',qty:'الكمية',currentPrice:'السعر الحالي',buyer:'العميل',email:'البريد',phone:'الهاتف',discord:'الدسكورد',payment:'الدفع',player:'ID اللاعب',currency:'العملة',created:'تاريخ الإنشاء',items:'العناصر',categorySep:' / '}
+  },
+  en:{
+    nav:{home:'Home',games:'Sections',cart:'Cart',invoices:'Invoices',income:'Monthly Income',admin:'Admin Panel'},
+    btn:{auth:'Login / Register',logout:'Logout',createInvoice:'Create Invoice',clearCart:'Clear Cart',login:'Login',register:'Create Account',confirm:'Confirm Account',confirmInvoice:'Confirm Invoice',addProduct:'Add Product',open:'Open Section',more:'View More',addToCart:'Add to Cart',approve:'Approve Invoice',toggle:'Toggle Payment',deleteInvoice:'Delete Invoice',save:'Save Price',remove:'Remove'},
+    hero:{tag:'Organized digital top-up + PUBG + Gaming Gear',title:'ERROR Digital Store',text:'This HTML file is now bilingual in Arabic and English with direct interface switching and direction change, while keeping sections, currencies, cart, invoices, and admin controls.',browse:'Start Browsing',admin:'Manage Currencies'},
+    search:{title:'Quick Search',sub:'Search across games, subscriptions, and gaming gear.',placeholder:'Search: PUBG, Prime, Popularity, UC, Cooler...',hint:'Prices change according to the selected currency at the top.'},
+    summary:{title:'Quick Summary',sub:'Amounts here are calculated only from paid invoices in the currently selected currency.',totalIncome:'Total Income',invoiceCount:'Invoice Count',currentUser:'Current User',paidInvoices:'Paid Invoices'},
+    quick:{pubgLabel:'PUBG Section',pubgValue:'UC + Prime + Prime Plus + Popularity',currencyLabel:'Currencies',currencyValue:'Instant switch from the top bar',purchaseLabel:'Purchase Flow',purchaseValue:'Cart + Invoices + WhatsApp'},
+    sections:{main:'Main Sections',mainSub:'Each section has its own image, offers, and products, including gaming gear.',productsSub:'View details then add to cart. The price changes with the selected currency.',offers:'Offers',offersSub:'Quick overview for each section with the same store style.',live:'Live Offers',cart:'Cart',cartSub:'Collect multiple items, then create one invoice in the selected currency.',invoices:'Invoices',invoicesSub:'Each invoice keeps the purchase currency plus payment and delivery status.',income:'Monthly Income',incomeSub:'The report counts only paid invoices in the selected currency.'},
+    income:{best:'Best Month',avg:'Monthly Average',noteTitle:'Important Note',note:'This is still a local browser version. To make data shared for all visitors you need a real database/backend.'},
+    admin:{title:'Admin Panel',sub:'Manage invoices + control each product price per currency + add new products.',local:'Local Management',invoices:'Purchases & Invoices',invoicesSub:'You can approve, toggle, or permanently delete invoices.',prices:'Currencies & Prices',pricesSub:'Choose a currency, then edit each product price in that currency only.',currency:'Currency',section:'Section',category:'Category',addTitle:'Add New Product',addSub:'New products get starter prices automatically, then you can edit each currency manually.',productName:'Product Name',basePrice:'Starting EUR Price',oldPrice:'Old EUR Price',note:'Short Description'},
+    auth:{title:'Accounts',sub:'Local login and account creation inside the browser.',loginTab:'Login',registerTab:'Register'},
+    verify:{title:'Email Verification',sub:'Enter the verification code shown after account creation.',code:'Verification Code'},
+    checkout:{title:'Create Invoice',sub:'The invoice will be saved in the currently selected currency.',playerIdHint:'It must start with 5 and contain 9 to 12 digits.'},
+    fields:{email:'Email',password:'Password',name:'Name',phone:'Phone / WhatsApp',discord:'Discord Name',playerId:'Player ID',payment:'Payment Method',notes:'Notes'},
+    footer:'ERROR STORE - bilingual Arabic / English HTML version.',
+    misc:{guest:'Guest',mainNotice:'The file has been updated to support both Arabic and English with direct interface switching.',sectionCount:'{n} sections',productCount:'{n} products',cartCount:'{n} in cart',invoiceCount:'{n} invoices',cartTotal:'Total {v}',byCurrency:'Based on {v}',emptyCart:'The cart is currently empty.',emptyInvoices:'No invoices yet.',emptyPaid:'No paid invoices in this currency yet.',loginFailed:'Incorrect login details.',loginSuccess:'Welcome {n}, login completed successfully.',logoutSuccess:'Logged out successfully.',verifyStart:'The account was created initially. Complete verification using the displayed code.',verifyDone:'Email verified and account created successfully.',verifyWrong:'Incorrect verification code.',verifyNone:'There is no verification request right now.',required:'Please fill in all required fields.',badPlayer:'Invalid player ID. It must start with 5 and contain 9 to 12 digits.',added:'Product added to cart.',removed:'Product removed from cart.',cleared:'Cart cleared.',invoiceCreated:'Invoice created successfully in the currently selected currency.',invoiceApproved:'Invoice {c} has been approved and is now paid and delivered.',invoiceUpdated:'Invoice {c} status updated.',invoiceDeleted:'Invoice {c} was deleted.',deleteInvoiceConfirm:'Are you sure you want to delete this invoice?',adminOnly:'This action is available to admins only.',badPrice:'Enter a valid price.',priceSaved:'Saved {n} price in {c}.',addProductNeed:'Enter a valid section, category, product name, and starting price.',addProductOk:'Product {n} was added inside {s} / {c}.',currencyChanged:'Language / currency updated successfully.',needPrice:'This product needs a price from the admin panel first.',paid:'Paid',unpaid:'Unpaid',received:'Delivered',pending:'Pending',notProvided:'Not provided',bestMonth:'Best Month',qty:'Quantity',currentPrice:'Current price',buyer:'Customer',email:'Email',phone:'Phone',discord:'Discord',payment:'Payment',player:'Player ID',currency:'Currency',created:'Created at',items:'Items',categorySep:' / '}
+  }
+};
+
+let lang = localStorage.getItem('error_store_lang_bi') || 'ar';
+function tt(path, vars={}){ const o=path.split('.').reduce((a,c)=>a&&a[c], TEXT[lang]) || ''; return typeof o==='string' ? o.replace(/\{(\w+)\}/g,(_,k)=>vars[k]??'') : ''; }
+function applyStaticText(){
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang==='ar' ? 'rtl' : 'ltr';
+  document.querySelectorAll('[data-t]').forEach(el=>el.textContent = tt(el.dataset.t));
+  document.getElementById('searchInput').placeholder = TEXT[lang].search.placeholder;
+  document.getElementById('checkoutPlayerId').placeholder = lang==='ar' ? 'مثال: 512345678' : 'Example: 512345678';
+  document.getElementById('playerIdHint').textContent = TEXT[lang].checkout.playerIdHint;
+  document.getElementById('loginEmail').placeholder = document.getElementById('registerEmail').placeholder = document.getElementById('checkoutEmail').placeholder = 'example@mail.com';
+  document.getElementById('loginPassword').placeholder = document.getElementById('registerPassword').placeholder = '••••••••';
+  document.getElementById('registerName').placeholder = document.getElementById('checkoutName').placeholder = lang==='ar' ? 'اسم المستخدم' : 'User name';
+  document.getElementById('registerPhone').placeholder = '+35679999556';
+  document.getElementById('checkoutPhone').placeholder = '+218912345678';
+  document.getElementById('checkoutDiscord').placeholder = lang==='ar' ? 'مثال: error_user' : 'Example: error_user';
+  document.getElementById('checkoutNotes').placeholder = lang==='ar' ? 'أي ملاحظات إضافية' : 'Any additional notes';
+  document.getElementById('adminProductName').placeholder = lang==='ar' ? 'مثال: RGB Headset' : 'Example: RGB Headset';
+  document.getElementById('adminProductPrice').placeholder = document.getElementById('adminOldPrice').placeholder = '19.99';
+  document.getElementById('adminProductNote').placeholder = lang==='ar' ? 'مثال: سماعة RGB للألعاب' : 'Example: RGB gaming headset';
+  document.getElementById('searchHint').textContent = TEXT[lang].search.hint;
+}
+function note(msg,type=''){ const box=document.getElementById('noticeBox'); box.className='notice'; if(type==='warning') box.classList.add('warning'); if(type==='danger') box.classList.add('danger-note'); box.textContent=msg; }
+
+const DB = window.ERROR_STORE_DB || {};
+const CURRENCIES = {
+  USD:{ar:'الدولار الأمريكي',en:'US Dollar',symbol:'$'},
+  EUR:{ar:'اليورو',en:'Euro',symbol:'€'},
+  LYD:{ar:'الدينار الليبي',en:'Libyan Dinar',symbol:'د.ل'},
+  EGP:{ar:'الجنيه المصري',en:'Egyptian Pound',symbol:'ج.م'},
+  KWD:{ar:'الدينار الكويتي',en:'Kuwaiti Dinar',symbol:'د.ك'},
+  SAR:{ar:'الريال السعودي',en:'Saudi Riyal',symbol:'ر.س'},
+  AED:{ar:'الدرهم الإماراتي',en:'UAE Dirham',symbol:'د.إ'},
+  QAR:{ar:'الريال القطري',en:'Qatari Riyal',symbol:'ر.ق'},
+  OMR:{ar:'الريال العماني',en:'Omani Rial',symbol:'ر.ع'},
+  BHD:{ar:'الدينار البحريني',en:'Bahraini Dinar',symbol:'د.ب'},
+  JOD:{ar:'الدينار الأردني',en:'Jordanian Dinar',symbol:'د.أ'},
+  DZD:{ar:'الدينار الجزائري',en:'Algerian Dinar',symbol:'د.ج'},
+  TND:{ar:'الدينار التونسي',en:'Tunisian Dinar',symbol:'د.ت'},
+  MAD:{ar:'الدرهم المغربي',en:'Moroccan Dirham',symbol:'د.م'}
+};
+const STORAGE = {games:'err_games_bi_v2',cart:'err_cart_bi_v2',invoices:'err_inv_bi_v2',users:'err_users_bi_v2',current:'err_current_bi_v2',currency:'err_curr_bi_v2',whatsapp:'err_wa_bi_v2'};
+
+function round2(v){ return Math.round(Number(v)*100)/100; }
+function makePriceMap(baseEUR){ return {EUR:round2(baseEUR),USD:round2(baseEUR*1.09),LYD:round2(baseEUR*5.22),EGP:round2(baseEUR*53.5),KWD:round2(baseEUR*.33),SAR:round2(baseEUR*4.08),AED:round2(baseEUR*4),QAR:round2(baseEUR*3.96),OMR:round2(baseEUR*.42),BHD:round2(baseEUR*.41),JOD:round2(baseEUR*.77),DZD:round2(baseEUR*145),TND:round2(baseEUR*3.4),MAD:round2(baseEUR*10.9)}; }
+function makeOldPriceMap(baseEUR){ return baseEUR==null?{}:makePriceMap(baseEUR); }
+function product(id,name,image,note,details,baseEUR,oldEUR=null,badge='Offer'){ return {id,name,image,note,details,badge,prices:makePriceMap(baseEUR),oldPrices:makeOldPriceMap(oldEUR)}; }
+
+const defaultGames = [
+  {id:'pubg',name:'PUBG Mobile',short:'PUBG',image:'pubg.webp',description:'PUBG UC, Prime, Prime Plus, and Popularity in one section.',offers:['UC Packs','Prime & Prime Plus','Popularity','Multi-currency pricing'],categoryOrder:['uc','prime','primeplus','popularity'],categories:{
+    uc:{label:'UC Packs',products:[product('pubg-60','60 UC','pubg.webp','Starter pack',['60 UC','Quick start'],0.89,0.99,'10%'),product('pubg-325','300 + 25 UC','pubg.webp','Medium pack',['300 UC + 25 Bonus'],4.49,4.99,'8%'),product('pubg-660','600 + 60 UC','pubg.webp','Most requested',['600 UC + 60 Bonus'],8.99,9.99,'10%'),product('pubg-1800','1500 + 300 UC','pubg.webp','Strong pack',['1500 UC + 300 Bonus'],22.49,24.99,'20%'),product('pubg-3850','3000 + 850 UC','pubg.webp','High value',['3000 UC + 850 Bonus'],44.99,49.99,'28%'),product('pubg-8100','6000 + 2100 UC','pubg.webp','Large offer',['6000 UC + 2100 Bonus'],89.99,99.99,'35%'),product('pubg-16200','12000 + 4200 UC','pubg.webp','Largest pack',['12000 UC + 4200 Bonus'],179.99,199.99,'35%')]},
+    prime:{label:'Prime',products:[product('prime-1','Prime (1 Month)','pubg_prime_1m.png','Prime monthly subscription',['Monthly access'],0.89,0.99,'Prime'),product('prime-3','Prime (3 Months)','pubg_prime_3m.png','Prime 3 months',['3 months access'],2.69,2.99,'Prime'),product('prime-6','Prime (6 Months)','pubg_prime_6m.png','Prime 6 months',['6 months access', lang==='ar' ? 'السعر يحدد من لوحة الأدمن' : 'Price set from admin panel'],0,null,'Prime'),product('prime-12','Prime (12 Months)','pubg_prime_12m.png','Prime 12 months',['12 months access', lang==='ar' ? 'السعر يحدد من لوحة الأدمن' : 'Price set from admin panel'],0,null,'Prime')]},
+    primeplus:{label:'Prime Plus',products:[product('primeplus-1','Prime Plus (1 Month)','pubg_primeplus_1m.png','Prime Plus monthly',['Monthly Plus access'],8.99,9.99,'Plus'),product('primeplus-3','Prime Plus (3 Months)','pubg_primeplus_3m.png','Prime Plus 3 months',['3 months Plus access'],26.99,29.99,'Plus'),product('primeplus-6','Prime Plus (6 Months)','pubg_primeplus_6m.png','Prime Plus 6 months',['6 months Plus access', lang==='ar' ? 'السعر يحدد من لوحة الأدمن' : 'Price set from admin panel'],0,null,'Plus'),product('primeplus-12','Prime Plus (12 Months)','pubg_primeplus_12m.png','Prime Plus 12 months',['12 months Plus access', lang==='ar' ? 'السعر يحدد من لوحة الأدمن' : 'Price set from admin panel'],0,null,'Plus')]},
+    popularity:{label:'Popularity',products:[product('pop-misc','Misc Popularity Support','pubg_pop_misc.jpg','Unlimited quantity',['Fast execution after approval'],0,null,'Unlimited'),product('pop-50k','50K Popularity Support','pubg_pop_50k.jpg','Unlimited quantity',['50K popularity support'],0,null,'Unlimited')]}
+  }},
+  {id:'fc26',name:'FC 26 Mobile',short:'FC26',image:'fc.jpg',description:'FC Points packs with multi-currency control.',offers:['Currency switching','Manual price control'],categoryOrder:['points'],categories:{points:{label:'FC Points',products:[product('fc-100','100 Points','fc.jpg','Starter pack',['100 Points'],1.49,1.99,'Offer'),product('fc-500','500 Points','fc.jpg','Best seller',['500 Points'],6.99,7.99,'Offer'),product('fc-1200','1200 Points','fc.jpg','Higher value',['1200 Points'],13.99,15.99,'Offer')]}}},
+  {id:'fortnite',name:'Fortnite',short:'Fortnite',image:'fortnite.jpg',description:'V-Bucks packs with multi-currency support.',offers:['Season offers','Manual prices'],categoryOrder:['vbucks'],categories:{vbucks:{label:'V-Bucks',products:[product('fn-1000','1000 V-Bucks','fortnite.jpg','Popular',['1000 V-Bucks'],7.99,8.99,'Offer'),product('fn-2800','2800 V-Bucks','fortnite.jpg','Better value',['2800 V-Bucks'],18.99,20.99,'Offer'),product('fn-5000','5000 V-Bucks','fortnite.jpg','For advanced players',['5000 V-Bucks'],29.99,33.99,'Offer')]}}},
+  {id:'freefire',name:'Free Fire',short:'Free Fire',image:'freefire.jpg',description:'Diamonds in a clean organized layout.',offers:['Seasonal discounts','Separate prices per currency'],categoryOrder:['diamonds'],categories:{diamonds:{label:'Diamonds',products:[product('ff-100','100 Diamonds','freefire.jpg','Fast',['100 Diamonds'],0.89,0.99,'Offer'),product('ff-310','310 Diamonds','freefire.jpg','Most requested',['310 Diamonds'],2.79,3.19,'Offer'),product('ff-1060','1060 Diamonds','freefire.jpg','Strong top-up',['1060 Diamonds'],8.99,9.99,'Offer')]}}},
+  {id:'cod',name:'Call of Duty Mobile',short:'Call of Duty',image:'cod.jpg',description:'CP packs with manual currency-based pricing.',offers:['CP packs','Editable pricing'],categoryOrder:['cp'],categories:{cp:{label:'CP',products:[product('cod-80','80 CP','cod.jpg','Starter pack',['80 CP'],1.19,1.49,'Offer'),product('cod-420','420 CP','cod.jpg','Best value',['420 CP'],5.69,6.29,'Offer'),product('cod-880','880 CP','cod.jpg','Season pack',['880 CP'],10.99,11.99,'Offer')]}}},
+  {id:'gaming-gear',name:'Gaming Gear',short:'Gaming Gear',image:'gaming_gear_banner.png',description:'Gaming accessories like finger sleeves, phone coolers, and headsets.',offers:['Per-product currency control','Reference-style visuals','View more in every card'],categoryOrder:['mobile','audio'],categories:{
+    mobile:{label:'Mobile Gear',products:[product('gear-sleeves-1','Finger Sleeves - 1 Pair','finger_sleeves.png','Finger sleeves for gaming',['Better touch control','Lightweight and comfortable'],1.04,1.48,'Gear'),product('gear-cooler-white','Phone Cooler - White','phone_cooler.webp','Phone cooler',['Fast cooling','For long sessions'],5.14,7.34,'Cooler'),product('gear-triggers','Gaming Triggers','gaming_gear_banner.png','Mobile triggers',['Fast control','Shooter ready'],2.99,3.99,'Gear')]},
+    audio:{label:'Audio & Setup',products:[product('gear-headset','RGB Gaming Headset','gaming_gear_banner.png','RGB headset',['Clear sound','RGB lighting'],14.99,18.99,'Audio'),product('gear-stand','Gaming Phone Stand','gaming_gear_banner.png','Phone stand',['Stable support','Easy to carry'],6.49,7.99,'Setup')]}
+  }}
+];
+
+function setExactLydPrice(gameId, categoryId, productId, currentPrice, oldPrice=null){
+  const game = defaultGames.find(g => g.id === gameId);
+  const category = game?.categories?.[categoryId];
+  const item = category?.products?.find(p => p.id === productId);
+  if(!item) return;
+  item.prices = item.prices || {};
+  item.prices.LYD = currentPrice;
+  item.oldPrices = item.oldPrices || {};
+  if(oldPrice==null) delete item.oldPrices.LYD; else item.oldPrices.LYD = oldPrice;
+}
+
+setExactLydPrice('pubg','uc','pubg-60',10,10);
+setExactLydPrice('pubg','uc','pubg-325',35,40);
+setExactLydPrice('pubg','uc','pubg-660',70,80);
+setExactLydPrice('pubg','uc','pubg-1800',190,200);
+setExactLydPrice('pubg','uc','pubg-3850',350,370);
+setExactLydPrice('pubg','uc','pubg-8100',620,700);
+setExactLydPrice('pubg','uc','pubg-16200',1320,1500);
+
+setExactLydPrice('pubg','prime','prime-1',10,15);
+setExactLydPrice('pubg','prime','prime-3',25,30);
+setExactLydPrice('pubg','prime','prime-6',45,50);
+setExactLydPrice('pubg','prime','prime-12',90,100);
+
+setExactLydPrice('pubg','primeplus','primeplus-1',70,80);
+setExactLydPrice('pubg','primeplus','primeplus-3',200,210);
+setExactLydPrice('pubg','primeplus','primeplus-6',400,450);
+setExactLydPrice('pubg','primeplus','primeplus-12',800,850);
+
+
+function read(key, fb){ try{ const raw=localStorage.getItem(key); return raw?JSON.parse(raw):fb; }catch(e){ return fb; } }
+function write(key,val){ localStorage.setItem(key, JSON.stringify(val)); }
+
+let games = read(STORAGE.games, defaultGames);
+let cart = read(STORAGE.cart, []);
+let invoices = read(STORAGE.invoices, []);
+let users = read(STORAGE.users, []);
+let currentUser = read(STORAGE.current, null);
+let activeCurrency = read(STORAGE.currency, 'LYD');
+let storeWhatsapp = read(STORAGE.whatsapp, (DB.admin?.phone || '35679999556'));
+function isGamingGearGame(gameId){ return gameId === 'gaming-gear'; }
+function cartNeedsPlayerId(){ return cart.some(item => !isGamingGearGame(item.gameId)); }
+function updateCheckoutRequirements(){ const wrap=document.getElementById('checkoutPlayerIdWrap'); if(!wrap) return; const need=cartNeedsPlayerId(); wrap.classList.toggle('hidden', !need); document.getElementById('playerIdHint').textContent = need ? TEXT[lang].checkout.playerIdHint : (lang==='ar' ? 'هذا الحقل غير مطلوب لمنتجات القيمنج.' : 'This field is not required for gaming gear.'); }
+function buildWhatsAppMessage(inv){ const lines=[]; lines.push('ERROR STORE'); lines.push(inv.invoiceCode); lines.push(lang==='ar' ? 'فاتورة جديدة' : 'New invoice'); lines.push(''); lines.push((lang==='ar' ? 'الاسم: ' : 'Name: ') + inv.customerName); if(inv.customerPhone) lines.push((lang==='ar' ? 'الهاتف: ' : 'Phone: ') + inv.customerPhone); lines.push((lang==='ar' ? 'الدفع: ' : 'Payment: ') + inv.paymentMethod); lines.push((lang==='ar' ? 'العملة: ' : 'Currency: ') + (CURRENCIES[inv.currencyCode]?.[lang] || inv.currencyCode)); lines.push(''); lines.push(lang==='ar' ? 'المنتجات:' : 'Products:'); inv.items.forEach((item, idx) => { const gameName=getGame(item.gameId)?.name || item.gameId; lines.push(`${idx+1}- ${item.name} × ${item.qty} - ${fmtMoney(item.unitPrice * item.qty, inv.currencyCode)} (${gameName})`); if(!isGamingGearGame(item.gameId) && inv.playerId) lines.push((lang==='ar' ? 'ID اللاعب: ' : 'Player ID: ') + inv.playerId); }); if(inv.notes) { lines.push(''); lines.push((lang==='ar' ? 'ملاحظات: ' : 'Notes: ') + inv.notes); } return lines.join('\n'); }
+function redirectInvoiceToWhatsApp(inv){ const phone = String(storeWhatsapp || DB.admin?.phone || '35679999556').replace(/\D/g,''); if(!phone) return; const message = buildWhatsAppMessage(inv); window.location.href = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`; }
+let selectedGameId = games[0]?.id || 'pubg';
+let selectedCategoryId = games[0]?.categoryOrder?.[0] || 'uc';
+let pendingUser = null;
+
+const ADMIN_EMAIL = 'root.secure.control@error-store.com'.toLowerCase();
+const ADMIN_HASH = '31483c0175729a3e085cb34225cef18e5f08b63e03a90645235f30fc3afd2509';
+const ADMIN_NAME = 'Admin ERROR';
+async function sha256(text){ const b=new TextEncoder().encode(text); const h=await crypto.subtle.digest('SHA-256', b); return [...new Uint8Array(h)].map(x=>x.toString(16).padStart(2,'0')).join(''); }
+function isAdmin(){ return !!(currentUser && currentUser.role==='admin' && (currentUser.email||'').toLowerCase()===ADMIN_EMAIL); }
+function syncPubgSubscriptionImages(){
+  const game = games.find(g => g.id === 'pubg');
+  if(!game || !game.categories) return;
+  const upsert = (categoryId, items) => {
+    const category = game.categories[categoryId];
+    if(!category) return;
+    category.products = Array.isArray(category.products) ? category.products : [];
+    items.forEach(item => {
+      const found = category.products.find(p => p.id === item.id);
+      if(found){
+        found.image = item.image;
+        found.name = item.name;
+        found.badge = item.badge;
+        found.note = found.note || item.note;
+        found.details = Array.isArray(found.details) && found.details.length ? found.details : item.details;
+        if(!found.prices) found.prices = makePriceMap(0);
+        if(!found.oldPrices) found.oldPrices = {};
+      } else {
+        category.products.push(product(item.id, item.name, item.image, item.note, item.details, 0, null, item.badge));
+      }
+    });
+  };
+  upsert('prime', [
+    {id:'prime-1', name:'Prime (1 Month)', image:'pubg_prime_1m.png', note:'Prime monthly subscription', details:['Monthly access'], badge:'Prime'},
+    {id:'prime-3', name:'Prime (3 Months)', image:'pubg_prime_3m.png', note:'Prime 3 months', details:['3 months access'], badge:'Prime'},
+    {id:'prime-6', name:'Prime (6 Months)', image:'pubg_prime_6m.png', note:'Prime 6 months', details:['6 months access', lang==='ar' ? 'السعر يحدد من لوحة الأدمن' : 'Price set from admin panel'], badge:'Prime'},
+    {id:'prime-12', name:'Prime (12 Months)', image:'pubg_prime_12m.png', note:'Prime 12 months', details:['12 months access', lang==='ar' ? 'السعر يحدد من لوحة الأدمن' : 'Price set from admin panel'], badge:'Prime'}
+  ]);
+  upsert('primeplus', [
+    {id:'primeplus-1', name:'Prime Plus (1 Month)', image:'pubg_primeplus_1m.png', note:'Prime Plus monthly', details:['Monthly Plus access'], badge:'Plus'},
+    {id:'primeplus-3', name:'Prime Plus (3 Months)', image:'pubg_primeplus_3m.png', note:'Prime Plus 3 months', details:['3 months Plus access'], badge:'Plus'},
+    {id:'primeplus-6', name:'Prime Plus (6 Months)', image:'pubg_primeplus_6m.png', note:'Prime Plus 6 months', details:['6 months Plus access', lang==='ar' ? 'السعر يحدد من لوحة الأدمن' : 'Price set from admin panel'], badge:'Plus'},
+    {id:'primeplus-12', name:'Prime Plus (12 Months)', image:'pubg_primeplus_12m.png', note:'Prime Plus 12 months', details:['12 months Plus access', lang==='ar' ? 'السعر يحدد من لوحة الأدمن' : 'Price set from admin panel'], badge:'Plus'}
+  ]);
+  const pop = game.categories.popularity;
+  if(pop && Array.isArray(pop.products)){
+    const misc = pop.products.find(p => p.id === 'pop-misc');
+    const p50 = pop.products.find(p => p.id === 'pop-50k');
+    if(misc) misc.image = 'pubg_pop_misc.jpg';
+    if(p50) p50.image = 'pubg_pop_50k.jpg';
+  }
+}
+
+function ensureDataIntegrity(){
+  if(!Array.isArray(games) || !games.length) games = JSON.parse(JSON.stringify(defaultGames));
+  if(!Array.isArray(cart)) cart = [];
+  if(!Array.isArray(invoices)) invoices = [];
+  if(!Array.isArray(users)) users = [];
+  games.forEach(game => {
+    if(!Array.isArray(game.categoryOrder)) game.categoryOrder = Object.keys(game.categories || {});
+    game.categories = game.categories || {};
+    Object.values(game.categories).forEach(category => {
+      if(!Array.isArray(category.products)) category.products = [];
+      category.products.forEach(product => {
+        product.prices = product.prices || makePriceMap(0);
+        product.oldPrices = product.oldPrices || {};
+      });
+    });
+  });
+  if(currentUser && !users.some(u => (u.email||'').toLowerCase() === (currentUser.email||'').toLowerCase())) currentUser = null;
+  syncPubgSubscriptionImages();
+}
+async function ensureAdmin(){
+  users = users.filter(user => user && user.email);
+  users.forEach(user => {
+    if((user.email || '').toLowerCase() !== ADMIN_EMAIL && user.role === 'admin') user.role = 'user';
+  });
+  const existing = users.find(u => (u.email||'').toLowerCase()===ADMIN_EMAIL);
+  if(existing){
+    existing.name = ADMIN_NAME;
+    existing.passwordHash = ADMIN_HASH;
+    existing.role = 'admin';
+    existing.verified = true;
+  } else {
+    users.unshift({name: ADMIN_NAME, email: ADMIN_EMAIL, passwordHash: ADMIN_HASH, role:'admin', verified:true, phone:''});
+  }
+  if(currentUser && (currentUser.email||'').toLowerCase()===ADMIN_EMAIL){
+    currentUser.name = ADMIN_NAME;
+    currentUser.role = 'admin';
+    currentUser.verified = true;
+    currentUser.passwordHash = ADMIN_HASH;
+  }
+  if(currentUser && (currentUser.email||'').toLowerCase() !== ADMIN_EMAIL && currentUser.role === 'admin') currentUser.role = 'user';
+  saveAll();
+}
+function saveAll(){ write(STORAGE.games,games); write(STORAGE.cart,cart); write(STORAGE.invoices,invoices); write(STORAGE.users,users); write(STORAGE.current,currentUser); write(STORAGE.currency,activeCurrency); write(STORAGE.whatsapp, storeWhatsapp); localStorage.setItem('error_store_lang_bi', lang); }
+
+function fmtMoney(v, code=activeCurrency){
+  const locale = lang==='ar' ? 'ar-EG' : 'en-US';
+  return `${new Intl.NumberFormat(locale,{minimumFractionDigits:2,maximumFractionDigits:2}).format(Number(v||0))} ${CURRENCIES[code].symbol}`;
+}
+function priceOf(product, code=activeCurrency){ return Number(product.prices?.[code] ?? product.prices?.EUR ?? 0); }
+function oldPriceOf(product, code=activeCurrency){ const v = product.oldPrices?.[code]; return v==null ? null : Number(v); }
+function getGame(id){ return games.find(g=>g.id===id) || games[0]; }
+function getCategory(game, id){ return game.categories[id] || game.categories[(game.categoryOrder||Object.keys(game.categories))[0]]; }
+function flatten(gameId, categoryId, productId){ const game=getGame(gameId); const category=getCategory(game, categoryId); return {game, category, product: category.products.find(p=>p.id===productId)}; }
+function safePhone(v){ return String(v||'').replace(/[^\d+]/g,'').replace(/^00/,'+'); }
+function wa(v){ return safePhone(v).replace(/^\+/,''); }
+function fillLangSelect(){
+  const s=document.getElementById('languageSelect');
+  s.innerHTML = `<option value="ar">العربية</option><option value="en">English</option>`;
+  s.value = lang;
+}
+function fillCurrencySelects(){
+  const opts = Object.entries(CURRENCIES).map(([code,v]) => `<option value="${code}">${v[lang]} (${v.symbol})</option>`).join('');
+  document.getElementById('currencySelect').innerHTML = opts;
+  document.getElementById('currencySelect').value = activeCurrency;
+  document.getElementById('adminCurrencySelect').innerHTML = opts;
+  document.getElementById('adminCurrencySelect').value = activeCurrency;
+}
+function fillGameSelects(){
+  const html = games.map(g=>`<option value="${g.id}">${g.short}</option>`).join('');
+  document.getElementById('adminGameSelect').innerHTML = html;
+  document.getElementById('adminAddGameSelect').innerHTML = html;
+  document.getElementById('adminGameSelect').value = selectedGameId;
+  document.getElementById('adminAddGameSelect').value = selectedGameId;
+  fillCategorySelects();
+}
+function fillCategorySelects(){
+  const adminCategory = document.getElementById('adminCategorySelect');
+  const addCategory = document.getElementById('adminAddCategorySelect');
+  const prevAdminValue = adminCategory.value;
+  const prevAddValue = addCategory.value;
+  const game = getGame(document.getElementById('adminGameSelect').value || selectedGameId);
+  const addGame = getGame(document.getElementById('adminAddGameSelect').value || selectedGameId);
+  const gameOrder = (game.categoryOrder||Object.keys(game.categories));
+  const addOrder = (addGame.categoryOrder||Object.keys(addGame.categories));
+  adminCategory.innerHTML = gameOrder.map(k=>`<option value="${k}">${game.categories[k].label}</option>`).join('');
+  addCategory.innerHTML = addOrder.map(k=>`<option value="${k}">${addGame.categories[k].label}</option>`).join('');
+  adminCategory.value = game.categories[prevAdminValue] ? prevAdminValue : gameOrder[0];
+  addCategory.value = addGame.categories[prevAddValue] ? prevAddValue : addOrder[0];
+}
+function renderGames(){
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  const list = games.filter(g => !q || [g.name,g.short,g.description,...Object.values(g.categories).flatMap(c=>c.products.map(p=>p.name))].join(' ').toLowerCase().includes(q));
+  document.getElementById('gamesCountPill').textContent = tt('misc.sectionCount',{n:list.length});
+  document.getElementById('gamesGrid').innerHTML = list.map(g=>`
+    <article class="card">
+      <img src="${g.image}" alt="${g.short}">
+      <div class="card-body">
+        <h3 class="card-title">${g.short}</h3>
+        <p class="muted">${g.description}</p>
+        <div class="chips">${g.offers.map(o=>`<span class="chip">${o}</span>`).join('')}</div>
+        <div class="actions" style="margin-top:auto"><button class="danger" onclick="selectGame('${g.id}')">${tt('btn.open')}</button></div>
+      </div>
+    </article>`).join('');
+}
+function renderSelectedGame(){
+  const game=getGame(selectedGameId);
+  if(!game.categories[selectedCategoryId]) selectedCategoryId=(game.categoryOrder||Object.keys(game.categories))[0];
+  const category=getCategory(game, selectedCategoryId);
+  document.getElementById('selectedGameImage').src = game.image;
+  document.getElementById('selectedGameName').textContent = game.short;
+  document.getElementById('selectedGameDescription').textContent = game.description;
+  document.getElementById('selectedGameOffers').innerHTML = game.offers.map(o=>`<span class="chip">${o}</span>`).join('');
+  document.getElementById('categoryTabs').innerHTML = (game.categoryOrder||Object.keys(game.categories)).map(k=>`<button class="category-btn ${selectedCategoryId===k?'active':''}" onclick="selectCategory('${k}')">${game.categories[k].label}</button>`).join('');
+  document.getElementById('productsSectionTitle').textContent = `${game.short}${TEXT[lang].misc.categorySep}${category.label}`;
+  document.getElementById('productsCountPill').textContent = tt('misc.productCount',{n:category.products.length});
+  document.getElementById('productsGrid').innerHTML = category.products.map(p=>`
+    <article class="product-card">
+      <div class="product-image">
+        <img src="${p.image}" alt="${p.name}">
+        <div class="product-badge">${p.badge||'Offer'}</div>
+      </div>
+      <div class="product-info">
+        <h3 class="product-title">${p.name}</h3>
+        <div class="price-now">${priceOf(p)>0 ? fmtMoney(priceOf(p)) : (lang==='ar' ? 'حسب الكمية' : 'Price on request')}</div>
+        <div class="price-old">${oldPriceOf(p) ? fmtMoney(oldPriceOf(p)) : '&nbsp;'}</div>
+        <div class="muted">${p.note||''}</div>
+        <div class="details hidden" id="details-${p.id}">
+          <div style="font-weight:900">${lang==='ar' ? 'المميزات' : 'Highlights'}</div>
+          <ul>${(p.details||[]).map(x=>`<li>${x}</li>`).join('')}</ul>
+        </div>
+        <div class="actions" style="margin-top:auto">
+          <button class="small" onclick="toggleDetails('${p.id}')">${tt('btn.more')}</button>
+          <button class="danger" onclick="addToCart('${game.id}','${selectedCategoryId}','${p.id}')">${tt('btn.addToCart')}</button>
+        </div>
+      </div>
+    </article>`).join('');
+}
+function renderOffers(){
+  document.getElementById('offersGrid').innerHTML = games.map(g=>`
+    <article class="offer-card">
+      <img src="${g.image}" alt="${g.short}">
+      <div class="offer-body">
+        <h3 class="product-title">${g.short}</h3>
+        <div class="chips">${g.offers.map(o=>`<span class="chip">${o}</span>`).join('')}</div>
+      </div>
+    </article>`).join('');
+}
+function renderPermissions(){
+  const adminMode = isAdmin();
+  document.getElementById('admin').classList.toggle('hidden', !adminMode);
+  document.getElementById('adminNav').classList.toggle('hidden', !adminMode);
+  document.getElementById('income').classList.toggle('hidden', !adminMode);
+  document.getElementById('incomeNav').classList.toggle('hidden', !adminMode);
+  document.getElementById('summaryPanel').classList.toggle('hidden', !adminMode);
+  document.getElementById('openAuthBtn').classList.toggle('hidden', !!currentUser);
+  document.getElementById('logoutBtn').classList.toggle('hidden', !currentUser);
+}
+function renderStats(){
+  const paid = invoices.filter(i => i.paymentStatus==='paid' && i.currencyCode===activeCurrency);
+  const total = paid.reduce((s,i)=>s+Number(i.total||0),0);
+  const adminMode = isAdmin();
+  document.getElementById('totalIncome').textContent = adminMode ? fmtMoney(total) : '•••';
+  document.getElementById('ordersCount').textContent = String(invoices.length);
+  document.getElementById('paidCountText').textContent = adminMode ? String(paid.length) : '•••';
+  document.getElementById('currentUserText').textContent = currentUser ? `${currentUser.name}${isAdmin() ? ' - Admin' : ''}` : tt('misc.guest');
+  document.getElementById('cartCountPill').textContent = tt('misc.cartCount', {n: cart.reduce((s,x)=>s+x.qty,0)});
+  document.getElementById('incomeCurrencyPill').textContent = tt('misc.byCurrency',{v:`${CURRENCIES[activeCurrency][lang]} (${CURRENCIES[activeCurrency].symbol})`});
+  renderPermissions();
+}
+function cartTotal(){ return cart.reduce((s,x)=>{ const ref=flatten(x.gameId,x.categoryId,x.productId); return s + priceOf(ref.product)*x.qty; },0); }
+function renderCart(){
+  document.getElementById('cartCountPill').textContent = tt('misc.cartCount', {n: cart.reduce((s,x)=>s+x.qty,0)});
+  document.getElementById('cartTotalPill').textContent = tt('misc.cartTotal', {v: fmtMoney(cartTotal())});
+  if(!cart.length){ document.getElementById('cartList').innerHTML = `<div class="muted">${tt('misc.emptyCart')}</div>`; return; }
+  document.getElementById('cartList').innerHTML = cart.map(x=>{ const ref=flatten(x.gameId,x.categoryId,x.productId); return `
+    <div class="cart-item">
+      <div class="cart-top">
+        <img class="thumb" src="${ref.product.image}" alt="${ref.product.name}">
+        <div>
+          <div style="font-weight:900">${ref.product.name}</div>
+          <div class="smalltxt">${ref.game.short}${TEXT[lang].misc.categorySep}${ref.category.label}</div>
+          <div class="smalltxt">${tt('misc.currentPrice')}: ${fmtMoney(priceOf(ref.product))}</div>
+        </div>
+      </div>
+      <div class="flex">
+        <button class="qty" onclick="changeQty('${x.key}',-1)">-</button>
+        <span class="pill">${tt('misc.qty')}: ${x.qty}</span>
+        <button class="qty" onclick="changeQty('${x.key}',1)">+</button>
+        <button class="small" onclick="removeFromCart('${x.key}')">${tt('btn.remove')}</button>
+      </div>
+    </div>`; }).join('');
+}
+function monthlySummary(){
+  const map={};
+  invoices.filter(i=>i.paymentStatus==='paid' && i.currencyCode===activeCurrency).forEach(i => map[i.month]=(map[i.month]||0)+Number(i.total||0));
+  return Object.keys(map).sort().map(m=>({month:m,total:round2(map[m])}));
+}
+function renderIncome(){
+  if(!isAdmin()){
+    document.getElementById('incomeRows').innerHTML = '';
+    document.getElementById('bestMonthText').textContent = '-';
+    document.getElementById('avgMonthText').textContent = '-';
+    return;
+  }
+  const rows=monthlySummary(); const total=rows.reduce((s,r)=>s+r.total,0); const max=Math.max(...rows.map(r=>r.total),1); const best=rows.reduce((a,r)=>r.total>(a?.total||0)?r:a,null); const avg=rows.length? total/rows.length:0;
+  document.getElementById('incomeRows').innerHTML = rows.length ? rows.map(r=>`<div class="month-row"><div class="flex" style="justify-content:space-between"><span>${r.month}</span><strong>${fmtMoney(r.total)}</strong></div><div class="bar"><span style="width:${(r.total/max)*100}%"></span></div></div>`).join('') : `<div class="muted">${tt('misc.emptyPaid')}</div>`;
+  document.getElementById('bestMonthText').textContent = best ? `${best.month} - ${fmtMoney(best.total)}` : '-';
+  document.getElementById('avgMonthText').textContent = fmtMoney(avg);
+}
+function renderInvoices(){
+  const list = currentUser ? invoices.filter(i => i.customerEmail===currentUser.email || isAdmin()) : [];
+  document.getElementById('invoiceCountPill').textContent = tt('misc.invoiceCount', {n:list.length});
+  if(!list.length){ document.getElementById('invoiceGrid').innerHTML = `<div class="muted">${tt('misc.emptyInvoices')}</div>`; return; }
+  document.getElementById('invoiceGrid').innerHTML = list.map(i=>`
+    <article class="invoice-card">
+      <div class="invoice-body">
+        <div class="flex" style="justify-content:space-between">
+          <div class="status ${i.paymentStatus==='paid'?'paid':'unpaid'}">${tt('misc.' + (i.paymentStatus==='paid'?'paid':'unpaid'))}</div>
+          <div class="status ${i.deliveryStatus==='received'?'delivered':'unpaid'}">${tt('misc.' + (i.deliveryStatus==='received'?'received':'pending'))}</div>
+        </div>
+        <h3 class="invoice-title">Invoice ${i.invoiceCode}</h3>
+        <div class="muted">${tt('misc.buyer')}: ${i.customerName}</div>
+        <div class="muted">${tt('misc.email')}: ${i.customerEmail}</div>
+        <div class="muted">${tt('misc.discord')}: ${i.discordName || tt('misc.notProvided')}</div>
+        <div class="muted">${tt('misc.phone')}: ${i.customerPhone || tt('misc.notProvided')}</div>
+        <div class="muted">${tt('misc.payment')}: ${i.paymentMethod}</div>
+        <div class="muted">${tt('misc.player')}: ${i.playerId}</div>
+        <div class="muted">${tt('misc.currency')}: ${CURRENCIES[i.currencyCode]?.[lang] || i.currencyCode}</div>
+        <div class="line-list">${i.items.map(x=>`<span class="chip">${x.name} × ${x.qty}</span>`).join('')}</div>
+        <div class="pill">${fmtMoney(i.total, i.currencyCode)}</div>
+        ${i.customerPhone ? `<div class="flex"><a class="small" target="_blank" rel="noopener" href="https://wa.me/${wa(i.customerPhone)}?text=${encodeURIComponent('ERROR STORE - ' + i.invoiceCode)}">WhatsApp</a></div>` : ''}
+        <div class="smalltxt">${tt('misc.created')}: ${i.createdAt}</div>
+      </div>
+    </article>`).join('');
+}
+function renderAdminInvoices(){
+  if(!isAdmin()){ document.getElementById('adminInvoicesTable').innerHTML=''; return; }
+  if(!invoices.length){ document.getElementById('adminInvoicesTable').innerHTML = `<div class="muted">${tt('misc.emptyInvoices')}</div>`; return; }
+  document.getElementById('adminInvoicesTable').innerHTML = invoices.map(i=>`
+    <div class="admin-item">
+      <div class="admin-top">
+        <img class="thumb" src="${i.items[0]?.image || 'pubg.webp'}" alt="${i.invoiceCode}">
+        <div>
+          <div style="font-weight:900">${i.invoiceCode}</div>
+          <div class="smalltxt">${i.customerName} - ${i.customerEmail}</div>
+          <div class="smalltxt">${tt('misc.phone')}: ${i.customerPhone || tt('misc.notProvided')}</div>
+          <div class="smalltxt">${tt('misc.currency')}: ${CURRENCIES[i.currencyCode]?.[lang] || i.currencyCode}</div>
+        </div>
+      </div>
+      <div class="line-list">
+        <span class="chip">${tt('misc.' + (i.paymentStatus==='paid'?'paid':'unpaid'))}</span>
+        <span class="chip">${tt('misc.' + (i.deliveryStatus==='received'?'received':'pending'))}</span>
+        <span class="chip">${fmtMoney(i.total, i.currencyCode)}</span>
+      </div>
+      <div class="smalltxt">${tt('misc.items')}: ${i.items.map(x=>`${x.name} × ${x.qty}`).join(' - ')}</div>
+      <div class="flex">
+        <button class="success" onclick="approveInvoice('${i.id}')">${tt('btn.approve')}</button>
+        <button class="small" onclick="togglePaid('${i.id}')">${tt('btn.toggle')}</button>
+        <button class="danger" onclick="deleteInvoice('${i.id}')">${tt('btn.deleteInvoice')}</button>
+      </div>
+    </div>`).join('');
+}
+function renderAdminProducts(){
+  if(!isAdmin()){ document.getElementById('adminProductsTable').innerHTML=''; return; }
+  const code=document.getElementById('adminCurrencySelect').value || activeCurrency;
+  const game=getGame(document.getElementById('adminGameSelect').value || selectedGameId);
+  const categoryId=document.getElementById('adminCategorySelect').value || (game.categoryOrder||Object.keys(game.categories))[0];
+  const category=getCategory(game, categoryId);
+  document.getElementById('adminProductsTable').innerHTML = category.products.map(p=>`
+    <div class="admin-item">
+      <div class="admin-top">
+        <img class="thumb" src="${p.image}" alt="${p.name}">
+        <div>
+          <div style="font-weight:900">${p.name}</div>
+          <div class="smalltxt">${p.note || ''}</div>
+          <div class="smalltxt">${tt('misc.currentPrice')}: ${fmtMoney(priceOf(p,code), code)}</div>
+        </div>
+      </div>
+      <div class="flex">
+        <input class="field" style="max-width:180px" id="price-${p.id}" value="${p.prices[code] ?? ''}" placeholder="${lang==='ar'?'السعر':'Price'}">
+        <input class="field" style="max-width:180px" id="old-${p.id}" value="${p.oldPrices?.[code] ?? ''}" placeholder="${lang==='ar'?'السعر القديم':'Old price'}">
+        <button class="danger" onclick="saveCurrencyPrice('${game.id}','${categoryId}','${p.id}')">${tt('btn.save')}</button>
+        <button class="ghost" onclick="removeAdminProduct('${game.id}','${categoryId}','${p.id}')">${tt('btn.remove')}</button>
+      </div>
+    </div>`).join('');
+}
+function renderAll(){
+  applyStaticText();
+  fillLangSelect();
+  fillCurrencySelects();
+  fillGameSelects();
+  renderGames();
+  renderSelectedGame();
+  renderOffers();
+  renderStats();
+  renderCart();
+  renderInvoices();
+  renderIncome();
+  renderAdminInvoices();
+  renderAdminProducts();
+}
+window.selectGame = function(id){ selectedGameId=id; selectedCategoryId=(getGame(id).categoryOrder||Object.keys(getGame(id).categories))[0]; renderSelectedGame(); renderAdminProducts(); note(getGame(id).short + (lang==='ar'?' تم فتحه.':' opened.')); }
+window.selectCategory = function(id){ selectedCategoryId=id; renderSelectedGame(); renderAdminProducts(); }
+window.toggleDetails = function(id){ document.getElementById('details-'+id)?.classList.toggle('hidden'); }
+window.addToCart = function(gameId, categoryId, productId){
+  const ref=flatten(gameId,categoryId,productId); if(!ref.product) return;
+  if((priceOf(ref.product)||0)<=0){ note(tt('misc.needPrice'),'warning'); return; }
+  const key=`${gameId}-${categoryId}-${productId}`; const existing=cart.find(x=>x.key===key); if(existing) existing.qty+=1; else cart.push({key,gameId,categoryId,productId,qty:1});
+  saveAll(); renderCart(); updateCheckoutRequirements(); note(tt('misc.added'));
+}
+window.changeQty = function(key,delta){ const item=cart.find(x=>x.key===key); if(!item) return; item.qty+=delta; if(item.qty<=0) cart=cart.filter(x=>x.key!==key); saveAll(); renderCart(); updateCheckoutRequirements(); }
+window.removeFromCart = function(key){ cart=cart.filter(x=>x.key!==key); saveAll(); renderCart(); updateCheckoutRequirements(); note(tt('misc.removed')); }
+window.approveInvoice = function(id){
+  if(!isAdmin()){ note(tt('misc.adminOnly'),'danger'); return; }
+  const inv=invoices.find(x=>x.id===id); if(!inv) return;
+  inv.paymentStatus='paid'; inv.deliveryStatus='received'; saveAll(); renderAll(); updateCheckoutRequirements(); note(tt('misc.invoiceApproved',{c:inv.invoiceCode}));
+}
+window.togglePaid = function(id){
+  if(!isAdmin()){ note(tt('misc.adminOnly'),'danger'); return; }
+  const inv=invoices.find(x=>x.id===id); if(!inv) return;
+  inv.paymentStatus=inv.paymentStatus==='paid'?'unpaid':'paid'; inv.deliveryStatus=inv.paymentStatus==='paid'?'received':'pending'; saveAll(); renderAll(); note(tt('misc.invoiceUpdated',{c:inv.invoiceCode}));
+}
+window.deleteInvoice = function(id){
+  if(!isAdmin()){ note(tt('misc.adminOnly'),'danger'); return; }
+  const inv=invoices.find(x=>x.id===id); if(!inv) return;
+  if(!window.confirm(tt('misc.deleteInvoiceConfirm'))) return;
+  invoices=invoices.filter(x=>x.id!==id);
+  saveAll(); renderAll(); note(tt('misc.invoiceDeleted',{c:inv.invoiceCode}));
+}
+window.removeAdminProduct = function(gameId, categoryId, productId){
+  if(!isAdmin()){ note(tt('misc.adminOnly'),'danger'); return; }
+  const game=getGame(gameId); const category=getCategory(game, categoryId);
+  const item=category.products.find(p=>p.id===productId);
+  if(!item) return;
+  if(!window.confirm((lang==='ar' ? 'هل تريد حذف هذا المنتج؟' : 'Do you want to delete this product?') + ' - ' + item.name)) return;
+  category.products = category.products.filter(p=>p.id!==productId);
+  cart = cart.filter(x=>!(x.gameId===gameId && x.categoryId===categoryId && x.productId===productId));
+  saveAll(); renderAll(); note(lang==='ar' ? 'تم حذف المنتج.' : 'Product deleted.');
+}
+
+window.saveCurrencyPrice = function(gameId, categoryId, productId){
+  if(!isAdmin()){ note(tt('misc.adminOnly'),'danger'); return; }
+  const code=document.getElementById('adminCurrencySelect').value || activeCurrency;
+  const ref=flatten(gameId,categoryId,productId); const next=Number(document.getElementById('price-'+productId).value.trim()); const oldRaw=document.getElementById('old-'+productId).value.trim(); const oldVal=oldRaw===''?null:Number(oldRaw);
+  if(!Number.isFinite(next)){ note(tt('misc.badPrice'),'danger'); return; }
+  ref.product.prices[code]=round2(next); if(!ref.product.oldPrices) ref.product.oldPrices={}; if(oldVal===null) delete ref.product.oldPrices[code]; else ref.product.oldPrices[code]=round2(oldVal);
+  saveAll(); renderAll(); note(tt('misc.priceSaved',{n:ref.product.name,c:code}));
+}
+
+document.getElementById('searchInput').addEventListener('input', renderGames);
+document.getElementById('languageSelect').addEventListener('change', ()=>{ lang=document.getElementById('languageSelect').value; saveAll(); renderAll(); note(tt('misc.currencyChanged')); });
+document.getElementById('currencySelect').addEventListener('change', ()=>{ activeCurrency=document.getElementById('currencySelect').value; saveAll(); renderAll(); note(tt('misc.currencyChanged')); });
+document.getElementById('adminCurrencySelect').addEventListener('change', renderAdminProducts);
+document.getElementById('adminGameSelect').addEventListener('change', ()=>{ fillCategorySelects(); renderAdminProducts(); });
+document.getElementById('adminCategorySelect').addEventListener('change', renderAdminProducts);
+document.getElementById('adminAddGameSelect').addEventListener('change', fillCategorySelects);
+
+document.getElementById('openAuthBtn').addEventListener('click', ()=>document.getElementById('authModal').classList.add('active'));
+document.getElementById('logoutBtn').addEventListener('click', ()=>{ currentUser=null; saveAll(); renderAll(); note(tt('misc.logoutSuccess')); });
+document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click', ()=>document.getElementById(b.dataset.close).classList.remove('active')));
+document.querySelectorAll('[data-auth-tab]').forEach(btn=>btn.addEventListener('click', ()=>{
+  document.querySelectorAll('[data-auth-tab]').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(x=>x.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(btn.dataset.authTab==='login'?'authLoginPanel':'authRegisterPanel').classList.add('active');
+}));
+
+document.getElementById('loginBtn').addEventListener('click', async ()=>{
+  const email=document.getElementById('loginEmail').value.trim().toLowerCase(); const pass=document.getElementById('loginPassword').value;
+  const user=users.find(u=>(u.email||'').toLowerCase()===email); if(!user){ note(tt('misc.loginFailed'),'danger'); return; }
+  const hash=await sha256(pass); if(user.passwordHash!==hash){ note(tt('misc.loginFailed'),'danger'); return; }
+  if(!user.verified){ note(lang==='ar' ? 'هذا الحساب غير مفعل بعد.' : 'This account is not verified yet.','warning'); return; }
+  currentUser=user; saveAll(); renderAll(); document.getElementById('authModal').classList.remove('active'); note(tt('misc.loginSuccess',{n:user.name}));
+});
+
+document.getElementById('registerBtn').addEventListener('click', async ()=>{
+  const name=document.getElementById('registerName').value.trim();
+  const email=document.getElementById('registerEmail').value.trim().toLowerCase();
+  const pass=document.getElementById('registerPassword').value;
+  const phone=safePhone(document.getElementById('registerPhone').value.trim());
+  if(!name || !email || !pass){ note(tt('misc.required'),'danger'); return; }
+  if(pass.length<8){ note(lang==='ar'?'كلمة المرور يجب أن تكون 8 أحرف أو أكثر.':'Password must be at least 8 characters.','danger'); return; }
+  if(users.some(u=>(u.email||'').toLowerCase()===email)){ note(lang==='ar'?'هذا البريد مستخدم بالفعل.':'This email is already in use.','danger'); return; }
+  const code=String(Math.floor(100000 + Math.random()*900000));
+  pendingUser={name,email,phone,passwordHash:await sha256(pass),role:'user',verified:false,code};
+  document.getElementById('verifyCodeInput').value='';
+  document.getElementById('verifyInfoBox').textContent = lang==='ar' ? `رمز التحقق المحلي لهذا الحساب هو: ${code}` : `The local verification code for this account is: ${code}`;
+  document.getElementById('authModal').classList.remove('active');
+  document.getElementById('verifyModal').classList.add('active');
+  note(tt('misc.verifyStart'),'warning');
+});
+document.getElementById('confirmVerifyBtn').addEventListener('click', ()=>{
+  if(!pendingUser){ note(tt('misc.verifyNone'),'danger'); return; }
+  const code=document.getElementById('verifyCodeInput').value.trim();
+  if(code!==pendingUser.code){ note(tt('misc.verifyWrong'),'danger'); return; }
+  const user={...pendingUser}; delete user.code; user.verified=true; users.push(user); currentUser=user; pendingUser=null; saveAll(); renderAll(); document.getElementById('verifyModal').classList.remove('active'); note(tt('misc.verifyDone'));
+});
+
+document.getElementById('openCheckoutBtn').addEventListener('click', ()=>{
+  if(!cart.length){ note(tt('misc.emptyCart'),'danger'); return; }
+  document.getElementById('checkoutName').value=currentUser?.name||''; document.getElementById('checkoutEmail').value=currentUser?.email||''; document.getElementById('checkoutPhone').value=currentUser?.phone||'';
+  document.getElementById('checkoutDiscord').value=''; document.getElementById('checkoutPlayerId').value=''; document.getElementById('checkoutNotes').value='';
+  document.getElementById('checkoutModal').classList.add('active');
+});
+document.getElementById('clearCartBtn').addEventListener('click', ()=>{ cart=[]; saveAll(); renderCart(); updateCheckoutRequirements(); note(tt('misc.cleared')); });
+document.getElementById('createInvoiceBtn').addEventListener('click', ()=>{
+  if(!cart.length){ note(tt('misc.emptyCart'),'danger'); return; }
+  const name=document.getElementById('checkoutName').value.trim(); const email=document.getElementById('checkoutEmail').value.trim().toLowerCase(); const phone=safePhone(document.getElementById('checkoutPhone').value.trim());
+  const discord=document.getElementById('checkoutDiscord').value.trim(); const rawPlayerId=document.getElementById('checkoutPlayerId').value.trim(); const payment=document.getElementById('checkoutPaymentMethod').value; const notes=document.getElementById('checkoutNotes').value.trim();
+  if(!name || !email){ note(tt('misc.required'),'danger'); return; }
+  const requirePlayerId = cartNeedsPlayerId();
+  const playerId = requirePlayerId ? rawPlayerId : '';
+  if(requirePlayerId && !/^\d{5,20}$/.test(playerId)){ note(tt('misc.badPlayer'),'danger'); return; }
+  const now=new Date(); const month=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  const items=cart.map(x=>{ const ref=flatten(x.gameId,x.categoryId,x.productId); return {gameId:x.gameId,categoryId:x.categoryId,productId:x.productId,image:ref.product.image,name:ref.product.name,qty:x.qty,unitPrice:priceOf(ref.product)}; });
+  const total=items.reduce((s,x)=>s+x.unitPrice*x.qty,0);
+  const createdInvoice = {id:String(Date.now()),invoiceCode:'INV-'+Math.random().toString(36).slice(2,8).toUpperCase(),customerName:name,customerEmail:email,customerPhone:phone,discordName:discord,playerId,paymentMethod:payment,notes,items,total:round2(total),paymentStatus:'unpaid',deliveryStatus:'pending',currencyCode:activeCurrency,createdAt:now.toLocaleString(lang==='ar'?'ar-EG':'en-US'),month};
+  invoices.unshift(createdInvoice);
+  cart=[]; saveAll(); renderAll(); updateCheckoutRequirements(); document.getElementById('checkoutModal').classList.remove('active'); note(tt('misc.invoiceCreated'));
+  redirectInvoiceToWhatsApp(createdInvoice);
+});
+
+document.getElementById('addProductBtn').addEventListener('click', ()=>{
+  if(!isAdmin()){ note(tt('misc.adminOnly'),'danger'); return; }
+  const gameId=document.getElementById('adminAddGameSelect').value; const categoryId=document.getElementById('adminAddCategorySelect').value; const name=document.getElementById('adminProductName').value.trim(); const eur=Number(document.getElementById('adminProductPrice').value.trim()); const oldRaw=document.getElementById('adminOldPrice').value.trim(); const oldVal=oldRaw===''?null:Number(oldRaw); const noteText=document.getElementById('adminProductNote').value.trim();
+  if(!gameId || !categoryId || !name || !Number.isFinite(eur)){ note(tt('misc.addProductNeed'),'danger'); return; }
+  const game=getGame(gameId); const category=getCategory(game,categoryId);
+  category.products.unshift(product(`${gameId}-${categoryId}-${Date.now()}`, name, game.image, noteText || (lang==='ar'?'منتج جديد':'New product'), [lang==='ar'?'تمت إضافته من لوحة الأدمن':'Added from admin panel'], eur, Number.isFinite(oldVal)?oldVal:null, lang==='ar'?'جديد':'New'));
+  document.getElementById('adminProductName').value=''; document.getElementById('adminProductPrice').value=''; document.getElementById('adminOldPrice').value=''; document.getElementById('adminProductNote').value='';
+  saveAll(); renderAll(); note(tt('misc.addProductOk',{n:name,s:game.short,c:category.label}));
+});
+
+window.addEventListener('click', e=>['authModal','verifyModal','checkoutModal'].forEach(id=>{ const m=document.getElementById(id); if(e.target===m) m.classList.remove('active'); }));
+
+(async()=>{
+  ensureDataIntegrity();
+  await ensureAdmin();
+  renderAll();
+  note(tt('misc.mainNotice'));
+})();
+</script>
+</body>
+</html>
